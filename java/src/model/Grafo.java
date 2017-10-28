@@ -93,7 +93,9 @@ public class Grafo {
         return vertices.size();
     }
 
-
+    public ArrayList<Node> getVertices() {
+        return vertices;
+    }
 
     @Override
     public String toString() {

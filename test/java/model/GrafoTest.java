@@ -1,6 +1,10 @@
 package model;
+import model.Grafo;
+import org.junit.Test;
 
-import static org.junit.Assert.*;
+import java.util.ArrayList;
+
+import static junit.framework.TestCase.assertEquals;
 
 /**
  * Created by octaviocarpes on 10/28/17.
@@ -8,5 +12,10 @@ import static org.junit.Assert.*;
 public class GrafoTest {
 
 
+    //TODO Terminar d eimplementar os testes.
+    @Test
+    public void adicionaVerticeTest(){
+
+    }
 
 }
