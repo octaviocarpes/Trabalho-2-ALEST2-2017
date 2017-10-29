@@ -13,6 +13,7 @@ public class Grafo {
         String nomeCorrentista1;
         String nomeCorrentista2;
         Integer numeroConta;
+        boolean visited;
 
         ArrayList<Node> adjacentes;
 
@@ -20,6 +21,7 @@ public class Grafo {
             this.nomeCorrentista1 = nomeCorrentista1;
             this.nomeCorrentista2 = nomeCorrentista2;
             this.numeroConta = numeroConta;
+            this.visited = false;
             adjacentes = new ArrayList<>();
         }
 
@@ -50,14 +52,20 @@ public class Grafo {
             result = 31 * result + (adjacentes != null ? adjacentes.hashCode() : 0);
             return result;
         }
+
+        @Override
+        public String toString(){
+            return "\n" + "Conta : " + numeroConta + "\n" + "Correntista 1: " + nomeCorrentista1 + "\n" + "Correntista 2: " + nomeCorrentista2 + "\n";
+        }
     }
 
     private ArrayList<Node> vertices;
-    private int tamanhoGrafo;
+    private ArrayList<String> edgeTo;
+
 
     public Grafo() {
         vertices = new ArrayList<>();
-        tamanhoGrafo = 0;
+        edgeTo = new ArrayList<>();
     }
 
 
@@ -71,16 +79,17 @@ public class Grafo {
              ) {
             for (Node verticeComparado:vertices
                  ) {
-                if (verticeAnalisado.nomeCorrentista1.equals(verticeComparado.nomeCorrentista1)||
-                    verticeAnalisado.nomeCorrentista1.equals(verticeComparado.nomeCorrentista2)||
-                    verticeAnalisado.nomeCorrentista2.equals(verticeComparado.nomeCorrentista1)||
-                    verticeAnalisado.nomeCorrentista2.equals(verticeComparado.nomeCorrentista2)  )
-                {
-
                     if (verticeAnalisado.equals(verticeComparado)){
                         continue;
                     }else{
-                        verticeAnalisado.adicionaAdjacentes(verticeComparado);
+                        if (    verticeAnalisado.nomeCorrentista1.equals(verticeComparado.nomeCorrentista1)||
+                                verticeAnalisado.nomeCorrentista1.equals(verticeComparado.nomeCorrentista2)||
+                                verticeAnalisado.nomeCorrentista2.equals(verticeComparado.nomeCorrentista1)||
+                                verticeAnalisado.nomeCorrentista2.equals(verticeComparado.nomeCorrentista2)  )
+                        {
+                            verticeAnalisado.adicionaAdjacentes(verticeComparado);
+                            montaListaAdjacentes(verticeAnalisado,verticeComparado);
+
                     }
 
                 }
@@ -95,6 +104,18 @@ public class Grafo {
 
     public ArrayList<Node> getVertices() {
         return vertices;
+    }
+
+    private void montaListaAdjacentes(Node verticeAnalisado,Node verticeComparado){
+        String aresta = verticeAnalisado.numeroConta + " - " + verticeComparado.numeroConta;
+        String arestaInvertida = verticeComparado.numeroConta + " - " + verticeAnalisado.numeroConta;
+
+        if(edgeTo.contains(aresta))return;
+        if(edgeTo.contains(arestaInvertida))return;
+    }
+
+    public void realizarTransferencia(String nomeDepsositador, String nomeBeneficario){
+
     }
 
     @Override

@@ -45,15 +45,11 @@ public class LeitorDeArquivos {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        try {
-            String transferencia = meuLeitor.readLine();
+            String transferencia = linha;
             String[] dadosTransferencia = transferencia.split(" ");
             nomeDepositador = dadosTransferencia[0];
             nomeBeneficiario = dadosTransferencia[1];
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
     }
 
     public String getNomeDepositador() {
