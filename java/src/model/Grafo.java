@@ -1,6 +1,6 @@
 package model;
 
-import com.sun.tools.javac.util.List;
+
 
 import java.util.ArrayList;
 import java.util.Queue;
@@ -110,14 +110,7 @@ public class Grafo {
     }
 
     public void montaListaCaminhos(Node contaAnalisada){
-        sun.misc.Queue<Node> fila = new sun.misc.Queue<>();
-        contaAnalisada.visited = true;
-        for (Node adj:contaAnalisada.adjacentes
-             ) {
-            if (adj.visited) continue;
-            fila.enqueue(adj);
 
-        }
     }
 
     @Override
