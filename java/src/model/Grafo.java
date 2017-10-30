@@ -3,6 +3,7 @@ package model;
 import com.sun.tools.javac.util.List;
 
 import java.util.ArrayList;
+import java.util.Queue;
 
 /**
  * Created by octaviocarpes on 10/22/17.
@@ -13,6 +14,7 @@ public class Grafo {
         String nomeCorrentista1;
         String nomeCorrentista2;
         Integer numeroConta;
+        boolean visited;
 
         ArrayList<Node> adjacentes;
 
@@ -20,7 +22,9 @@ public class Grafo {
             this.nomeCorrentista1 = nomeCorrentista1;
             this.nomeCorrentista2 = nomeCorrentista2;
             this.numeroConta = numeroConta;
+            this.visited = false;
             adjacentes = new ArrayList<>();
+
         }
 
         public void adicionaAdjacentes(Node adjacente){
@@ -50,37 +54,45 @@ public class Grafo {
             result = 31 * result + (adjacentes != null ? adjacentes.hashCode() : 0);
             return result;
         }
+
+        @Override
+        public String toString(){
+            return "\n" + "Conta : " + numeroConta + "\n" + "Correntista 1: " + nomeCorrentista1 + "\n" + "Correntista 2: " + nomeCorrentista2 + "\n";
+        }
     }
 
+    //Atributo
     private ArrayList<Node> vertices;
-    private int tamanhoGrafo;
+    private int[] distanciaVertices;
 
+
+    //Construtor
     public Grafo() {
         vertices = new ArrayList<>();
-        tamanhoGrafo = 0;
     }
 
 
+    //Métodos
     public void adicionaVertice(Integer numeroConta,String nomeCorrentista1,String nomeCorrentista2){
         Node vertice = new Node(nomeCorrentista1,nomeCorrentista2,numeroConta);
         vertices.add(vertice);
     }
 
     public void adicionaArestasAosVertices(){
+        int countTamGrafo = 0;
         for (Node verticeAnalisado:vertices
              ) {
             for (Node verticeComparado:vertices
                  ) {
-                if (verticeAnalisado.nomeCorrentista1.equals(verticeComparado.nomeCorrentista1)||
-                    verticeAnalisado.nomeCorrentista1.equals(verticeComparado.nomeCorrentista2)||
-                    verticeAnalisado.nomeCorrentista2.equals(verticeComparado.nomeCorrentista1)||
-                    verticeAnalisado.nomeCorrentista2.equals(verticeComparado.nomeCorrentista2)  )
-                {
-
                     if (verticeAnalisado.equals(verticeComparado)){
                         continue;
                     }else{
-                        verticeAnalisado.adicionaAdjacentes(verticeComparado);
+                        if (    verticeAnalisado.nomeCorrentista1.equals(verticeComparado.nomeCorrentista1)||
+                                verticeAnalisado.nomeCorrentista1.equals(verticeComparado.nomeCorrentista2)||
+                                verticeAnalisado.nomeCorrentista2.equals(verticeComparado.nomeCorrentista1)||
+                                verticeAnalisado.nomeCorrentista2.equals(verticeComparado.nomeCorrentista2)  )
+                        {
+                            verticeAnalisado.adicionaAdjacentes(verticeComparado);
                     }
 
                 }
@@ -93,7 +105,20 @@ public class Grafo {
         return vertices.size();
     }
 
+    public ArrayList<Node> getVertices() {
+        return vertices;
+    }
 
+    public void montaListaCaminhos(Node contaAnalisada){
+        sun.misc.Queue<Node> fila = new sun.misc.Queue<>();
+        contaAnalisada.visited = true;
+        for (Node adj:contaAnalisada.adjacentes
+             ) {
+            if (adj.visited) continue;
+            fila.enqueue(adj);
+
+        }
+    }
 
     @Override
     public String toString() {
