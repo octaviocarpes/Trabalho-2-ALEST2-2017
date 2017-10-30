@@ -1,8 +1,6 @@
 package model;
 
-import com.sun.tools.javac.util.List;
-import sun.font.FontRunIterator;
-import sun.jvm.hotspot.utilities.IntArray;
+
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -124,56 +122,8 @@ public class Grafo {
         return vertices;
     }
 
-    public void realizaTransefrencia(String nomeDepositador, String nomeBeneficiario){
-        Node contaQueDeposita = null;
-        for (Node conta:vertices
-             ) {
-            if (conta.nomeCorrentista1.equals(nomeDepositador) || conta.nomeCorrentista2.equals(nomeDepositador)){
-                 contaQueDeposita = conta;
-            }
-        }
-        montaListaCaminhos(contaQueDeposita, nomeDepositador , nomeBeneficiario);
+    public void montaListaCaminhos(Node contaAnalisada){
 
-    }
-
-    private void montaListaCaminhos(Node contaQueDeposita,String nomeDepositador ,String nomeBeneficiario) {
-        sun.misc.Queue<Node> fila = new sun.misc.Queue();
-        contaQueDeposita.visited = true;
-
-        fila.enqueue(contaQueDeposita);
-
-        System.out.println("Raiz: " + contaQueDeposita.numeroConta);
-
-        Integer iterador = 0;
-
-        while (!fila.isEmpty()) {
-            try {
-
-                Node contaAnalisada = fila.dequeue();
-                for (Node contaAdjacente : contaAnalisada.adjacentes
-                        ) {
-                    if (contaAdjacente.visited) {
-                        continue;
-                    } else {
-                        contaAdjacente.visited = true;
-                        String caminho = contaAnalisada.numeroConta + " - " + contaAdjacente.numeroConta;
-                        //String caminho ="Veio de: " + contaAnalisada.toString()+ "\n\nFoi Para: " + contaAdjacente.toString();
-                        edgeTo[iterador] = caminho;
-                        iterador++;
-                        fila.enqueue(contaAdjacente);
-                    }
-                }
-
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-
-        System.out.println("Caminhos Encontrados:");
-        for (int i = 0; i < iterador; i++) {
-            System.out.println(edgeTo[i].toString());
-        }
-        verificaDistancias(iterador, nomeDepositador , nomeBeneficiario);
     }
 
     private void verificaDistancias(int iterador, String nomeDepositador ,String nomeBeneficiario){
