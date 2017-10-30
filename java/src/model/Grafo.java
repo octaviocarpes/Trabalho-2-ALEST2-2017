@@ -3,6 +3,7 @@ package model;
 import com.sun.tools.javac.util.List;
 
 import java.util.ArrayList;
+import java.util.Queue;
 
 /**
  * Created by octaviocarpes on 10/22/17.
@@ -23,6 +24,7 @@ public class Grafo {
             this.numeroConta = numeroConta;
             this.visited = false;
             adjacentes = new ArrayList<>();
+
         }
 
         public void adicionaAdjacentes(Node adjacente){
@@ -59,22 +61,25 @@ public class Grafo {
         }
     }
 
+    //Atributo
     private ArrayList<Node> vertices;
-    private ArrayList<String> edgeTo;
+    private int[] distanciaVertices;
 
 
+    //Construtor
     public Grafo() {
         vertices = new ArrayList<>();
-        edgeTo = new ArrayList<>();
     }
 
 
+    //Métodos
     public void adicionaVertice(Integer numeroConta,String nomeCorrentista1,String nomeCorrentista2){
         Node vertice = new Node(nomeCorrentista1,nomeCorrentista2,numeroConta);
         vertices.add(vertice);
     }
 
     public void adicionaArestasAosVertices(){
+        int countTamGrafo = 0;
         for (Node verticeAnalisado:vertices
              ) {
             for (Node verticeComparado:vertices
@@ -88,8 +93,6 @@ public class Grafo {
                                 verticeAnalisado.nomeCorrentista2.equals(verticeComparado.nomeCorrentista2)  )
                         {
                             verticeAnalisado.adicionaAdjacentes(verticeComparado);
-                            montaListaAdjacentes(verticeAnalisado,verticeComparado);
-
                     }
 
                 }
@@ -106,16 +109,15 @@ public class Grafo {
         return vertices;
     }
 
-    private void montaListaAdjacentes(Node verticeAnalisado,Node verticeComparado){
-        String aresta = verticeAnalisado.numeroConta + " - " + verticeComparado.numeroConta;
-        String arestaInvertida = verticeComparado.numeroConta + " - " + verticeAnalisado.numeroConta;
+    public void montaListaCaminhos(Node contaAnalisada){
+        sun.misc.Queue<Node> fila = new sun.misc.Queue<>();
+        contaAnalisada.visited = true;
+        for (Node adj:contaAnalisada.adjacentes
+             ) {
+            if (adj.visited) continue;
+            fila.enqueue(adj);
 
-        if(edgeTo.contains(aresta))return;
-        if(edgeTo.contains(arestaInvertida))return;
-    }
-
-    public void realizarTransferencia(String nomeDepsositador, String nomeBeneficario){
-
+        }
     }
 
     @Override

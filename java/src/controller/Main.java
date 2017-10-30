@@ -25,7 +25,7 @@ public class Main {
         System.out.println("\nRealizar Transferencia!");
         System.out.println(meuLeitor.getNomeDepositador() + " - " + meuLeitor.getNomeBeneficiario());
 
-        meuGrafo.realizarTransferencia(meuLeitor.getNomeDepositador(),meuLeitor.getNomeBeneficiario());
+        //meuGrafo.realizarTransferencia(meuLeitor.getNomeDepositador(),meuLeitor.getNomeBeneficiario());
 
     }
 }
