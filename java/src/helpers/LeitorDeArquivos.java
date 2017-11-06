@@ -12,6 +12,7 @@ public class LeitorDeArquivos {
     private BufferedReader meuLeitor;
     private String nomeDepositador;
     private String nomeBeneficiario;
+    private Integer tamGrafo;
 
     public LeitorDeArquivos(String nomeDoArquivo) {
         try {
@@ -21,16 +22,12 @@ public class LeitorDeArquivos {
         }
         nomeDepositador = "";
         nomeBeneficiario = "";
+        tamGrafo = 0;
     }
 
     public void leArquivo(Grafo grafoParaPopular){
+        int quantidadeClientes = tamGrafo;
         String linha = "";
-        Integer quantidadeClientes = 0;
-        try {
-            quantidadeClientes = Integer.parseInt(meuLeitor.readLine());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         try {
             while((linha = meuLeitor.readLine()) != null && quantidadeClientes > 0){
                 String[] dados = linha.split(" ");
@@ -58,5 +55,16 @@ public class LeitorDeArquivos {
 
     public String getNomeBeneficiario() {
         return nomeBeneficiario;
+    }
+
+    public int retornaTamGrafo(){
+        Integer quantidadeClientes = 0;
+        try {
+            quantidadeClientes = Integer.parseInt(meuLeitor.readLine());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        tamGrafo = quantidadeClientes;
+        return quantidadeClientes;
     }
 }
