@@ -1,8 +1,13 @@
 package model;
 
 import com.sun.tools.javac.util.List;
+import sun.font.FontRunIterator;
+import sun.jvm.hotspot.utilities.IntArray;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Queue;
 
 /**
@@ -15,6 +20,7 @@ public class Grafo {
         String nomeCorrentista2;
         Integer numeroConta;
         boolean visited;
+
 
         ArrayList<Node> adjacentes;
 
@@ -63,12 +69,21 @@ public class Grafo {
 
     //Atributo
     private ArrayList<Node> vertices;
-    private int[] distanciaVertices;
+    private Integer[] distanciaVertices;
+    private String[] edgeTo;
+    private boolean[] marked;
+    private ArrayList<Caminho> caminhosEncontrados;
+    HashMap<Integer,Integer> mapaDeCaminhos;
 
 
     //Construtor
-    public Grafo() {
+    public Grafo(int tamGrafo) {
         vertices = new ArrayList<>();
+        edgeTo = new String[tamGrafo*10];
+        marked = new boolean[tamGrafo*10];
+        distanciaVertices = new Integer[tamGrafo*10];
+        caminhosEncontrados = new ArrayList<>();
+        mapaDeCaminhos = new HashMap<>();
     }
 
 
@@ -109,16 +124,128 @@ public class Grafo {
         return vertices;
     }
 
-    public void montaListaCaminhos(Node contaAnalisada){
-        sun.misc.Queue<Node> fila = new sun.misc.Queue<>();
-        contaAnalisada.visited = true;
-        for (Node adj:contaAnalisada.adjacentes
+    public void realizaTransefrencia(String nomeDepositador, String nomeBeneficiario){
+        Node contaQueDeposita = null;
+        for (Node conta:vertices
              ) {
-            if (adj.visited) continue;
-            fila.enqueue(adj);
-
+            if (conta.nomeCorrentista1.equals(nomeDepositador) || conta.nomeCorrentista2.equals(nomeDepositador)){
+                 contaQueDeposita = conta;
+            }
         }
+        montaListaCaminhos(contaQueDeposita, nomeDepositador , nomeBeneficiario);
+
     }
+
+    private void montaListaCaminhos(Node contaQueDeposita,String nomeDepositador ,String nomeBeneficiario) {
+        sun.misc.Queue<Node> fila = new sun.misc.Queue();
+        contaQueDeposita.visited = true;
+
+        fila.enqueue(contaQueDeposita);
+
+        System.out.println("Raiz: " + contaQueDeposita.numeroConta);
+
+        Integer iterador = 0;
+
+        while (!fila.isEmpty()) {
+            try {
+
+                Node contaAnalisada = fila.dequeue();
+                for (Node contaAdjacente : contaAnalisada.adjacentes
+                        ) {
+                    if (contaAdjacente.visited) {
+                        continue;
+                    } else {
+                        contaAdjacente.visited = true;
+                        String caminho = contaAnalisada.numeroConta + " - " + contaAdjacente.numeroConta;
+                        //String caminho ="Veio de: " + contaAnalisada.toString()+ "\n\nFoi Para: " + contaAdjacente.toString();
+                        edgeTo[iterador] = caminho;
+                        iterador++;
+                        fila.enqueue(contaAdjacente);
+                    }
+                }
+
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        System.out.println("Caminhos Encontrados:");
+        for (int i = 0; i < iterador; i++) {
+            System.out.println(edgeTo[i].toString());
+        }
+        verificaDistancias(iterador, nomeDepositador , nomeBeneficiario);
+    }
+
+    private void verificaDistancias(int iterador, String nomeDepositador ,String nomeBeneficiario){
+
+
+        for (int i = 0; i < iterador; i++) {
+            String[]data = edgeTo[i].split(" - ");
+            mapaDeCaminhos.put(Integer.parseInt(data[0]),Integer.parseInt(data[1]));
+        }
+        System.out.println(mapaDeCaminhos);
+
+
+
+        // A idéia é pegar todas as contas que tenham o nomeDepositador
+        // e entao tracar os caminhos
+        // para entao poder escolher o menor caminho possivel.
+        ArrayList<Node> contasCandidatasParaDepositar = new ArrayList<>();
+        ArrayList<Node> contasCandidatasParaReceber = new ArrayList<>();
+
+        for (Node conta: vertices
+             ) {
+            if (conta.nomeCorrentista1.equals(nomeDepositador) || conta.nomeCorrentista2.equals(nomeDepositador)){
+                contasCandidatasParaDepositar.add(conta);
+            }
+        }
+
+        for (Node conta: vertices
+                ) {
+            if (conta.nomeCorrentista1.equals(nomeBeneficiario) || conta.nomeCorrentista2.equals(nomeBeneficiario)){
+                contasCandidatasParaReceber.add(conta);
+            }
+        }
+
+//        System.out.println(contasCandidatasParaDepositar);
+//        System.out.println(contasCandidatasParaReceber);
+
+        ArrayList<Integer> distanciaCaminhos = new ArrayList<>();
+        for (Node contaCandidata: contasCandidatasParaDepositar
+             ) {
+            distanciaCaminhos.add(executaCaminho(contaCandidata.numeroConta,mapaDeCaminhos));
+        }
+        System.out.println(distanciaCaminhos);
+
+        System.out.println("------------------");
+        System.out.println(caminhosEncontrados);
+
+        verificaCaminhos(nomeBeneficiario);
+    }
+
+    private Integer executaCaminho(Integer contaCandidata, HashMap<Integer, Integer> mapaDeCaminhos) {
+        Caminho caminho = new Caminho();
+
+        while(mapaDeCaminhos.get(contaCandidata) != null){
+            caminho.addConta(contaCandidata);
+            System.out.println(caminho);
+            System.out.println(contaCandidata);
+            contaCandidata = mapaDeCaminhos.get(contaCandidata);
+            System.out.println(contaCandidata);
+            System.out.println("*******");
+        }
+        caminhosEncontrados.add(caminho);
+        return caminho.size();
+    }
+
+    private void verificaCaminhos(String nomeBeneficiado){
+        validaCaminhos(caminhosEncontrados.get(0),nomeBeneficiado);
+    }
+
+    private void validaCaminhos(Caminho cam,String nomeBeneficiado) {
+        Node
+    }
+
 
     @Override
     public String toString() {

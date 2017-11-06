@@ -9,8 +9,11 @@ import model.Grafo;
 public class Main {
     public static void main(String[] args) {
 
-        Grafo meuGrafo = new Grafo();
+        Grafo meuGrafo = null;
+
         LeitorDeArquivos meuLeitor = new LeitorDeArquivos("casoTeste.txt");
+
+        meuGrafo = new Grafo(meuLeitor.retornaTamGrafo());
 
         meuLeitor.leArquivo(meuGrafo);
 
@@ -25,7 +28,9 @@ public class Main {
         System.out.println("\nRealizar Transferencia!");
         System.out.println(meuLeitor.getNomeDepositador() + " - " + meuLeitor.getNomeBeneficiario());
 
-        //meuGrafo.realizarTransferencia(meuLeitor.getNomeDepositador(),meuLeitor.getNomeBeneficiario());
+        System.out.println();
+
+        meuGrafo.realizaTransefrencia(meuLeitor.getNomeDepositador(),meuLeitor.getNomeBeneficiario());
 
     }
 }
