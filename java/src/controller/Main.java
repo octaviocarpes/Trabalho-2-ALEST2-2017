@@ -9,9 +9,8 @@ import model.Grafo;
 public class Main {
     public static void main(String[] args) {
 
-        Grafo meuGrafo = null;
-
-        LeitorDeArquivos meuLeitor = new LeitorDeArquivos("casoTeste.txt");
+        Grafo meuGrafo = new Grafo();
+        LeitorDeArquivos meuLeitor = new LeitorDeArquivos("CasosTeste/casoTeste.txt");
 
         meuGrafo = new Grafo(meuLeitor.retornaTamGrafo());
 
