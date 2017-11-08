@@ -8,6 +8,7 @@ import java.util.Queue;
 
 public class BuscaPorLargura {
     private Grafo grafoParaAnalisar;
+    private CaminhosEncontrados caminhosEncontrados;
 
     private ArrayList<Vertice> contasCandidatas;
     private ArrayList<String> resultadoCaminhamento;
@@ -15,6 +16,7 @@ public class BuscaPorLargura {
 
     public BuscaPorLargura(Grafo grafoParaAnalisar) {
         this.grafoParaAnalisar = grafoParaAnalisar;
+        this.caminhosEncontrados = new CaminhosEncontrados();
         this.contasCandidatas = new ArrayList<>();
         this.resultadoCaminhamento = new ArrayList<>();
         this.resultadoDistanciaCaminhamentos = new ArrayList<>();
@@ -34,6 +36,7 @@ public class BuscaPorLargura {
         for (Vertice vertice:grafoParaAnalisar.getVertices()
              ) {
             vertice.setVisitado(false);
+            vertice.setNivel(0);
         }
     }
 
@@ -49,6 +52,7 @@ public class BuscaPorLargura {
             System.out.println("Caminhamento de: " + contasCandidatas.get(i).getNumeroConta());
             System.out.println("Distancia: " + resultadoDistanciaCaminhamentos.get(i));
             System.out.println("Passos: " + resultadoCaminhamento.get(i));
+            System.out.println();
         }
     }
 
@@ -64,8 +68,12 @@ public class BuscaPorLargura {
 
         // Enquanto a fila não está vazia
         while (!fila.isEmpty()){
+
             //Pega o primeiro vertice na fila
             Vertice contaNaFila = fila.dequeue();
+
+            // Incrementa a distancia em 1
+            distanciaTotalBFS++;
 
             // Para cada vertice Adjacente
             for (Vertice adjacente:contaNaFila.getVerticesAdjacentes()
@@ -76,16 +84,17 @@ public class BuscaPorLargura {
                 else{
                     adjacente.setVisitado(true);
                     fila.enqueue(adjacente);
+                    adjacente.setNivel(contaNaFila.getNivel() + 1);
                 }
             }
+
             // Grava caminho do vértice
-            caminhamento.append(contaNaFila.getNumeroConta() + " ");
-            // Incrementa a distancia em 1
-            distanciaTotalBFS++;
+            caminhamento.append(contaNaFila.getNumeroConta() + "(" +contaNaFila.getNivel()+ ") ");
         }
         // Adiciona caminhamento
         resultadoCaminhamento.add(caminhamento.toString());
-        return distanciaTotalBFS;
+        caminhosEncontrados.adicionaCaminho(caminhamento.toString());
+        return distanciaTotalBFS -1;
     }
 
     public void pesquisaMenorCaminho(String nomeDepositador, String nomeBeneficiado){

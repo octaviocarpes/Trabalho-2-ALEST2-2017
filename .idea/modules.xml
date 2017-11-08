@@ -5,8 +5,6 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Trabalho-2-ALEST2-2017.iml" filepath="$PROJECT_DIR$/.idea/modules/Trabalho-2-ALEST2-2017.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Trabalho-2-ALEST2-2017_main.iml" filepath="$PROJECT_DIR$/.idea/modules/Trabalho-2-ALEST2-2017_main.iml" group="Trabalho-2-ALEST2-2017" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Trabalho-2-ALEST2-2017_test.iml" filepath="$PROJECT_DIR$/.idea/modules/Trabalho-2-ALEST2-2017_test.iml" group="Trabalho-2-ALEST2-2017" />
-      <module fileurl="file://$PROJECT_DIR$/java/java.iml" filepath="$PROJECT_DIR$/java/java.iml" />
-      <module fileurl="file://$PROJECT_DIR$/test/test.iml" filepath="$PROJECT_DIR$/test/test.iml" />
     </modules>
   </component>
 </project>

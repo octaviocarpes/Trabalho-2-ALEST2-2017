@@ -17,7 +17,7 @@ public class Main {
         Grafo meuGrafo = new Grafo();
         LeitorDeArquivos meuLeitor = new LeitorDeArquivos("CasosTeste/casoTeste.txt");
 
-        meuGrafo = new Grafo(meuLeitor.retornaTamGrafo());
+        meuGrafo = new Grafo();
 
         meuLeitor.leArquivo(meuGrafo);
 

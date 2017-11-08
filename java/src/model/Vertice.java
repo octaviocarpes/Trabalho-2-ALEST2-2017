@@ -7,6 +7,7 @@ public class Vertice implements Vertices{
     private String numeroConta;
     private String nomeCorrentista1;
     private String nomeCorrentista2;
+    private Integer nivel;
     private boolean visitado;
     private ArrayList<Vertice> adjacentes;
 
@@ -14,6 +15,7 @@ public class Vertice implements Vertices{
         this.numeroConta = numeroConta;
         this.nomeCorrentista1 = nomeCorrentista1;
         this.nomeCorrentista2 = nomeCorrentista2;
+        this.nivel = 0;
         this.visitado = false;
         adjacentes = new ArrayList<>();
     }
@@ -31,6 +33,14 @@ public class Vertice implements Vertices{
     @Override
     public String getNomeCorrentista2() {
         return nomeCorrentista2;
+    }
+
+    public Integer getNivel() {
+        return nivel;
+    }
+
+    public void setNivel(Integer nivel) {
+        this.nivel = nivel;
     }
 
     public boolean isVisitado() {
