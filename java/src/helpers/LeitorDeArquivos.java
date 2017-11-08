@@ -28,6 +28,13 @@ public class LeitorDeArquivos {
     public void leArquivo(Grafo grafoParaPopular){
         int quantidadeClientes = tamGrafo;
         String linha = "";
+        Integer quantidadeClientes = 0;
+        try {
+            quantidadeClientes = Integer.parseInt(meuLeitor.readLine());
+            grafoParaPopular.setTamanho(quantidadeClientes);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         try {
             while((linha = meuLeitor.readLine()) != null && quantidadeClientes > 0){
                 String[] dados = linha.split(" ");
