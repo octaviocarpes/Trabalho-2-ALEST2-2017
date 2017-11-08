@@ -28,6 +28,7 @@ public class LeitorDeArquivos {
         Integer quantidadeClientes = 0;
         try {
             quantidadeClientes = Integer.parseInt(meuLeitor.readLine());
+            grafoParaPopular.setTamanho(quantidadeClientes);
         } catch (IOException e) {
             e.printStackTrace();
         }
