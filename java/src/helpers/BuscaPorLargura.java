@@ -10,24 +10,34 @@ public class BuscaPorLargura {
     private Grafo grafoParaAnalisar;
     private CaminhosEncontrados caminhosEncontrados;
 
-    private ArrayList<Vertice> contasCandidatas;
+    private ArrayList<Vertice> contasCandidatasParaDepositar;
+    private ArrayList<Vertice> contasCandidatasParaReceber;
     private ArrayList<String> resultadoCaminhamento;
     private ArrayList<Integer> resultadoDistanciaCaminhamentos;
 
     public BuscaPorLargura(Grafo grafoParaAnalisar) {
         this.grafoParaAnalisar = grafoParaAnalisar;
-        this.caminhosEncontrados = new CaminhosEncontrados();
-        this.contasCandidatas = new ArrayList<>();
+        this.caminhosEncontrados = new CaminhosEncontrados(grafoParaAnalisar);
+        this.contasCandidatasParaDepositar = new ArrayList<>();
+        this.contasCandidatasParaReceber = new ArrayList<>();
         this.resultadoCaminhamento = new ArrayList<>();
         this.resultadoDistanciaCaminhamentos = new ArrayList<>();
     }
 
-    public void encontraContasCandidatas(String nomeCorrentistaQueDeposita){
+    public void encontraContasCandidatas(String nomeCorrentistaQueDeposita, String nomeCorrentistaQueRecebe){
         for (Vertice conta:grafoParaAnalisar.getVertices()
                 ) {
             if (conta.getNomeCorrentista1().equals(nomeCorrentistaQueDeposita)||
                 conta.getNomeCorrentista2().equals(nomeCorrentistaQueDeposita)){
-                contasCandidatas.add(conta);
+                contasCandidatasParaDepositar.add(conta);
+            }
+        }
+
+        for (Vertice conta:grafoParaAnalisar.getVertices()
+                ) {
+            if (conta.getNomeCorrentista1().equals(nomeCorrentistaQueRecebe)||
+                    conta.getNomeCorrentista2().equals(nomeCorrentistaQueRecebe)){
+                contasCandidatasParaReceber.add(conta);
             }
         }
     }
@@ -41,15 +51,15 @@ public class BuscaPorLargura {
     }
 
     public void coletaRespostas() throws InterruptedException {
-        for (int i = 0; i < contasCandidatas.size() ; i++) {
+        for (int i = 0; i < contasCandidatasParaDepositar.size() ; i++) {
             resetCaminhos();
-            resultadoDistanciaCaminhamentos.add(realizaBFS(contasCandidatas.get(i)));
+            resultadoDistanciaCaminhamentos.add(realizaBFS(contasCandidatasParaDepositar.get(i)));
         }
     }
 
     public void imprimeRespostas(){
-        for (int i = 0; i < contasCandidatas.size() ; i++) {
-            System.out.println("Caminhamento de: " + contasCandidatas.get(i).getNumeroConta());
+        for (int i = 0; i < contasCandidatasParaDepositar.size() ; i++) {
+            System.out.println("Caminhamento de: " + contasCandidatasParaDepositar.get(i).getNumeroConta());
             System.out.println("Distancia: " + resultadoDistanciaCaminhamentos.get(i));
             System.out.println("Passos: " + resultadoCaminhamento.get(i));
             System.out.println();
@@ -89,7 +99,7 @@ public class BuscaPorLargura {
             }
 
             // Grava caminho do vértice
-            caminhamento.append(contaNaFila.getNumeroConta() + "(" +contaNaFila.getNivel()+ ") ");
+            caminhamento.append(contaNaFila.getNumeroConta() + "-" + contaNaFila.getNivel() + " ");
         }
         // Adiciona caminhamento
         resultadoCaminhamento.add(caminhamento.toString());
@@ -98,7 +108,7 @@ public class BuscaPorLargura {
     }
 
     public void pesquisaMenorCaminho(String nomeDepositador, String nomeBeneficiado){
-
+        caminhosEncontrados.escolheMenorCaminho(nomeDepositador,contasCandidatasParaDepositar,nomeBeneficiado,contasCandidatasParaReceber);
     }
 
 

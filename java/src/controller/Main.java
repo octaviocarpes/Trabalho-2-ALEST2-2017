@@ -37,7 +37,7 @@ public class Main {
         System.out.println(meuLeitor.getNomeDepositador() + " - " + meuLeitor.getNomeBeneficiario());
         System.out.println();
 
-        bfs.encontraContasCandidatas(meuLeitor.getNomeDepositador());
+        bfs.encontraContasCandidatas(meuLeitor.getNomeDepositador(), meuLeitor.getNomeBeneficiario());
         try {
             bfs.coletaRespostas();
         } catch (InterruptedException e) {
@@ -46,6 +46,7 @@ public class Main {
 
         bfs.imprimeRespostas();
 
+        bfs.pesquisaMenorCaminho(meuLeitor.getNomeDepositador(),meuLeitor.getNomeBeneficiario());
 
     }
 }
