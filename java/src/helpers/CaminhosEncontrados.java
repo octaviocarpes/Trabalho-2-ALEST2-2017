@@ -2,6 +2,7 @@ package helpers;
 
 import model.Grafo;
 import model.Vertice;
+import model.Vertices;
 
 import java.util.ArrayList;
 
@@ -24,16 +25,31 @@ public class CaminhosEncontrados {
     }
 
     public void escolheMenorCaminho(String nomeDepositador, ArrayList<Vertice> contasCandidatasParaDepositar, String nomeBeneficiado, ArrayList<Vertice> contasCandidatasParaReceber){
-        Vertice[] verticesQueDepositam = new Vertice[contasCandidatasParaDepositar.size()];
-        Vertice[] verticesQueRecebem = new Vertice[contasCandidatasParaReceber.size()];
+
         ArrayList<String> verticesEncontrados = new ArrayList<>();
+
         for (int i = 0; i < caminhosArmazenados.size() ; i++) {
-             String[] montaVertices = caminhosArmazenados.get(i).split(" ");
+            String[] montaVertices = caminhosArmazenados.get(i).split(" ");
             for (int j = 0; j < montaVertices.length; j++) {
                 verticesEncontrados.add(montaVertices[j]);
             }
         }
 
         System.out.println(verticesEncontrados);
+
+        // Ja temos os candidatos a depositar e receber
+        // Agora temos que procurar nos caminhos quais se encontram os candidatos e escolher o com menor tamanho
+
+        for (Vertice candidatoAPagar: contasCandidatasParaDepositar
+             ) {
+            for (String dadosCaminhamento: verticesEncontrados
+                 ) {
+                if (candidatoAPagar.getNivel().equals(dadosCaminhamento.split("-")[0])){
+
+                }
+            }
+        }
     }
+
 }
+
