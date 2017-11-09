@@ -24,31 +24,70 @@ public class CaminhosEncontrados {
         caminhosArmazenados.add(caminho);
     }
 
-    public void escolheMenorCaminho(String nomeDepositador, ArrayList<Vertice> contasCandidatasParaDepositar, String nomeBeneficiado, ArrayList<Vertice> contasCandidatasParaReceber){
+    public void escolheMenorCaminho(String nomeDepositador, ArrayList<Vertice> contasCandidatasParaDepositar, String nomeBeneficiado, ArrayList<Vertice> contasCandidatasParaReceber) {
+        ArrayList<Vertice> verticesDoCaminho = new ArrayList<>();
 
-        ArrayList<String> verticesEncontrados = new ArrayList<>();
-
-        for (int i = 0; i < caminhosArmazenados.size() ; i++) {
-            String[] montaVertices = caminhosArmazenados.get(i).split(" ");
-            for (int j = 0; j < montaVertices.length; j++) {
-                verticesEncontrados.add(montaVertices[j]);
-            }
-        }
-
-        System.out.println(verticesEncontrados);
-
-        // Ja temos os candidatos a depositar e receber
-        // Agora temos que procurar nos caminhos quais se encontram os candidatos e escolher o com menor tamanho
-
-        for (Vertice candidatoAPagar: contasCandidatasParaDepositar
+        for (String caminhos:caminhosArmazenados
              ) {
-            for (String dadosCaminhamento: verticesEncontrados
-                 ) {
-                if (candidatoAPagar.getNivel().equals(dadosCaminhamento.split("-")[0])){
-
+            String[] dadosVertices = caminhos.split(" ");
+            for (int i = 0; i < dadosVertices.length ; i++) {
+                for (Vertice verticesDoGrafo:grafoParaAnalisar.getVertices()
+                     ) {
+                    if (dadosVertices[i].split("-")[0].equals(verticesDoGrafo.getNumeroConta())){
+                        Vertice aux = new Vertice(verticesDoGrafo.getNumeroConta(),verticesDoGrafo.getNomeCorrentista1(),verticesDoGrafo.getNomeCorrentista2());
+                        aux.setNivel(Integer.parseInt(dadosVertices[i].split("-")[1]));
+                        verticesDoCaminho.add(aux);
+                    }
                 }
             }
         }
+
+        ArrayList<Vertice> recebedores = new ArrayList<>();
+
+
+
+        for (Vertice vertice: verticesDoCaminho
+             ) {
+            for (Vertice candidatoApagamento:contasCandidatasParaReceber
+                 ) {
+                if (vertice.getNumeroConta().equals(candidatoApagamento.getNumeroConta())){
+                    recebedores.add(vertice);
+                }
+            }
+        }
+
+        Integer menor = recebedores.get(0).getNivel();
+        Integer maior = recebedores.get(0).getNivel();
+
+        for (Vertice vertice:recebedores
+             ) {
+            if (vertice.getNivel() < menor){
+                menor = vertice.getNivel();
+            }
+            if (vertice.getNivel() > maior){
+                maior = vertice.getNivel();
+            }
+        }
+
+        Vertice verticeMenorDistancia = null;
+
+        for (Vertice vertice:recebedores
+             ) {
+            if (vertice.getNivel() == menor){
+                verticeMenorDistancia = vertice;
+            }
+        }
+
+        String menorVertice = verticeMenorDistancia.getNumeroConta() + "-" + verticeMenorDistancia.getNivel();
+
+        for (String caminhoCandidato: caminhosArmazenados
+             ) {
+            if (caminhoCandidato.contains(menorVertice)){
+                System.out.println("Caminho com menor distancia: " + caminhoCandidato);
+            }
+        }
+
+
     }
 
 }
