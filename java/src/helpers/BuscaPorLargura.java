@@ -14,6 +14,9 @@ public class BuscaPorLargura {
     private ArrayList<Vertice> contasCandidatasParaReceber;
     private ArrayList<String> resultadoCaminhamento;
     private ArrayList<Integer> resultadoDistanciaCaminhamentos;
+    private Vertice[] veioDe;
+    private Vertice[] foiPara;
+    private Integer qtdArestas;
 
     public BuscaPorLargura(Grafo grafoParaAnalisar) {
         this.grafoParaAnalisar = grafoParaAnalisar;
@@ -22,6 +25,9 @@ public class BuscaPorLargura {
         this.contasCandidatasParaReceber = new ArrayList<>();
         this.resultadoCaminhamento = new ArrayList<>();
         this.resultadoDistanciaCaminhamentos = new ArrayList<>();
+        this.veioDe = new Vertice[grafoParaAnalisar.getTamanhoGrafo()*2];
+        this.foiPara = new Vertice[grafoParaAnalisar.getTamanhoGrafo()*2];
+        this.qtdArestas = 0;
     }
 
     public void encontraContasCandidatas(String nomeCorrentistaQueDeposita, String nomeCorrentistaQueRecebe){
@@ -69,19 +75,18 @@ public class BuscaPorLargura {
     private int realizaBFS(Vertice contaCandidata) throws InterruptedException {
         sun.misc.Queue<Vertice> fila = new sun.misc.Queue<>();
         Integer distanciaTotalBFS = 0;
+        qtdArestas = 0;
         StringBuilder caminhamento = new StringBuilder();
 
         // Marca a primeira conta como visitada
         contaCandidata.setVisitado(true);
         // Poe a primeira conta na fila
         fila.enqueue(contaCandidata);
-
         // Enquanto a fila não está vazia
         while (!fila.isEmpty()){
 
             //Pega o primeiro vertice na fila
             Vertice contaNaFila = fila.dequeue();
-
             // Incrementa a distancia em 1
             distanciaTotalBFS++;
 
@@ -95,6 +100,9 @@ public class BuscaPorLargura {
                     adjacente.setVisitado(true);
                     fila.enqueue(adjacente);
                     adjacente.setNivel(contaNaFila.getNivel() + 1);
+                    veioDe[qtdArestas] = contaNaFila;
+                    foiPara[qtdArestas] = adjacente;
+                    qtdArestas++;
                 }
             }
 
@@ -108,7 +116,18 @@ public class BuscaPorLargura {
     }
 
     public void pesquisaMenorCaminho(String nomeDepositador, String nomeBeneficiado){
-        caminhosEncontrados.escolheMenorCaminho(nomeDepositador,contasCandidatasParaDepositar,nomeBeneficiado,contasCandidatasParaReceber);
+        try {
+            caminhosEncontrados.escolheMenorCaminho(nomeDepositador,contasCandidatasParaDepositar,nomeBeneficiado,contasCandidatasParaReceber);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void imprimeCaminhos(){
+        for (int i = 0; i < qtdArestas; i++) {
+            System.out.println(veioDe[i].getNomeCorrentista1() +" - "+ veioDe[i].getNomeCorrentista2() + " -> " + foiPara[i].getNomeCorrentista1() + " - " + foiPara[i].getNomeCorrentista2() + " (" + foiPara[i].getNivel() + ")");
+        }
     }
 
 

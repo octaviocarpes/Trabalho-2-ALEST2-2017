@@ -44,9 +44,9 @@ public class Main {
             e.printStackTrace();
         }
 
-        bfs.imprimeRespostas();
-
         bfs.pesquisaMenorCaminho(meuLeitor.getNomeDepositador(),meuLeitor.getNomeBeneficiario());
+
+        bfs.imprimeCaminhos();
 
     }
 }

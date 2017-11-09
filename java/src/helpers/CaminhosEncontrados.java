@@ -3,8 +3,10 @@ package helpers;
 import model.Grafo;
 import model.Vertice;
 import model.Vertices;
+import sun.misc.Queue;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by octaviocarpes on 11/8/17.
@@ -24,7 +26,7 @@ public class CaminhosEncontrados {
         caminhosArmazenados.add(caminho);
     }
 
-    public void escolheMenorCaminho(String nomeDepositador, ArrayList<Vertice> contasCandidatasParaDepositar, String nomeBeneficiado, ArrayList<Vertice> contasCandidatasParaReceber) {
+    public void escolheMenorCaminho(String nomeDepositador, ArrayList<Vertice> contasCandidatasParaDepositar, String nomeBeneficiado, ArrayList<Vertice> contasCandidatasParaReceber) throws InterruptedException {
         ArrayList<Vertice> verticesDoCaminho = new ArrayList<>();
 
         for (String caminhos:caminhosArmazenados
@@ -83,12 +85,41 @@ public class CaminhosEncontrados {
         for (String caminhoCandidato: caminhosArmazenados
              ) {
             if (caminhoCandidato.contains(menorVertice)){
-                System.out.println("Caminho com menor distancia: " + caminhoCandidato);
+                imprimeCaminhoComMenorDistancia(caminhoCandidato,nomeDepositador,nomeBeneficiado);
             }
         }
 
 
     }
+
+    private void imprimeCaminhoComMenorDistancia(String caminho,String nomeDeposito, String nomeRecebe) throws InterruptedException {
+        ArrayList<String> numeroContasVertices = new ArrayList<>();
+        ArrayList<Vertice> verticesDoCaminho = new ArrayList<>();
+
+        String[] verticesEdistancias = caminho.split(" ");
+
+        for (String vertice:verticesEdistancias
+             ) {
+            numeroContasVertices.add(vertice.split("-")[0]);
+        }
+
+
+        HashMap<String,String> caminhoTransferencia = new HashMap<>();
+
+
+        for (int i = numeroContasVertices.size() -1; i >= 0; i--) {
+            for (Vertice vertice:grafoParaAnalisar.getVertices()
+                 ) {
+                if (numeroContasVertices.get(i).equals(vertice.getNumeroConta())){
+                    vertice.setVisitado(false);
+                    verticesDoCaminho.add(vertice);
+                }
+            }
+        }
+
+
+    }
+
 
 }
 
