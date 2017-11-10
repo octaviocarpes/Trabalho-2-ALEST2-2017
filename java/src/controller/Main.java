@@ -32,7 +32,7 @@ public class Main {
 
         LeitorDeArquivos meuLeitor = null;
 
-        option = scanner.nextInt();q
+        option = scanner.nextInt();
         switch(option){
 
             case 1:
