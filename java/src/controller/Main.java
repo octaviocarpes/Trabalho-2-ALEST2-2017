@@ -15,7 +15,7 @@ public class Main {
     public static void main(String[] args) {
 
         Grafo meuGrafo = new Grafo();
-        LeitorDeArquivos meuLeitor = new LeitorDeArquivos("CasosTeste/casoTeste.txt");
+        LeitorDeArquivos meuLeitor = new LeitorDeArquivos("CasosTeste/caso02.txt");
 
         meuGrafo = new Grafo();
 
@@ -46,7 +46,7 @@ public class Main {
 
         bfs.pesquisaMenorCaminho(meuLeitor.getNomeDepositador(),meuLeitor.getNomeBeneficiario());
 
-        bfs.imprimeCaminhos();
+        bfs.imprimeCaminhos(meuLeitor.getNomeDepositador(),meuLeitor.getNomeBeneficiario());
 
     }
 }

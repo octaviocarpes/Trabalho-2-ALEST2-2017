@@ -124,11 +124,61 @@ public class BuscaPorLargura {
 
     }
 
-    public void imprimeCaminhos(){
+    public void imprimeCaminhos(String nomeDepositador, String nomeBeneficiado){
         for (int i = 0; i < qtdArestas; i++) {
+            if (foiPara[i].getNomeCorrentista1().equals(nomeBeneficiado) ||
+                foiPara[i].getNomeCorrentista2().equals(nomeBeneficiado)){
+                System.out.println(veioDe[i].getNomeCorrentista1() +" - "+ veioDe[i].getNomeCorrentista2() + " -> " + foiPara[i].getNomeCorrentista1() + " - " + foiPara[i].getNomeCorrentista2() + " (" + foiPara[i].getNivel() + ")");
+                break;
+            }
             System.out.println(veioDe[i].getNomeCorrentista1() +" - "+ veioDe[i].getNomeCorrentista2() + " -> " + foiPara[i].getNomeCorrentista1() + " - " + foiPara[i].getNomeCorrentista2() + " (" + foiPara[i].getNivel() + ")");
         }
+
+        // Procura o vertice do beneficiado
+        Vertice beneficiado = null;
+        Integer posicaoBeneficiado = 0;
+        for (int i = 0; i < qtdArestas; i++) {
+            if(foiPara[i].getNomeCorrentista1().equals(nomeBeneficiado)||
+                    foiPara[i].getNomeCorrentista2().equals(nomeBeneficiado)){
+                beneficiado = foiPara[i];
+                posicaoBeneficiado = i;
+            }
+        }
+
+        // Procura o vertice do depositador
+        Vertice depositador = null;
+        Integer posicaoDepositador = 0;
+        for (int i = 0; i < qtdArestas; i++) {
+            if(veioDe[i].getNomeCorrentista1().equals(nomeDepositador)||
+                    veioDe[i].getNomeCorrentista2().equals(nomeDepositador)){
+                depositador = veioDe[i];
+                posicaoDepositador = i;
+            }
+        }
+
+        StringBuilder res = new StringBuilder();
+
+
+
     }
 
+
+    private int procuraFoiPara(Vertice foiPara){;
+        for (int i = 0; i < qtdArestas; i++) {
+            if(foiPara.equals(this.foiPara[i])){
+                 return i;
+            }
+        }
+        return -1;
+    }
+
+    private int procuraVeioDe(Vertice veioDe){;
+        for (int i = 0; i < qtdArestas; i++) {
+            if(veioDe.equals(this.veioDe[i])){
+                return i;
+            }
+        }
+        return -1;
+    }
 
 }
