@@ -15,7 +15,7 @@ public class Main {
     public static void main(String[] args) {
 
         Grafo meuGrafo = new Grafo();
-        LeitorDeArquivos meuLeitor = new LeitorDeArquivos("CasosTeste/caso02.txt");
+        LeitorDeArquivos meuLeitor = new LeitorDeArquivos("CasosTeste/caso01.txt");
 
         meuGrafo = new Grafo();
 

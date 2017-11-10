@@ -4,6 +4,7 @@ import model.Grafo;
 import model.Vertice;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Queue;
 
 public class BuscaPorLargura {
@@ -128,10 +129,10 @@ public class BuscaPorLargura {
         for (int i = 0; i < qtdArestas; i++) {
             if (foiPara[i].getNomeCorrentista1().equals(nomeBeneficiado) ||
                 foiPara[i].getNomeCorrentista2().equals(nomeBeneficiado)){
-                System.out.println(veioDe[i].getNomeCorrentista1() +" - "+ veioDe[i].getNomeCorrentista2() + " -> " + foiPara[i].getNomeCorrentista1() + " - " + foiPara[i].getNomeCorrentista2() + " (" + foiPara[i].getNivel() + ")");
+               // System.out.println(veioDe[i].getNomeCorrentista1() +" - "+ veioDe[i].getNomeCorrentista2() + " -> " + foiPara[i].getNomeCorrentista1() + " - " + foiPara[i].getNomeCorrentista2() + " (" + foiPara[i].getNivel() + ")");
                 break;
             }
-            System.out.println(veioDe[i].getNomeCorrentista1() +" - "+ veioDe[i].getNomeCorrentista2() + " -> " + foiPara[i].getNomeCorrentista1() + " - " + foiPara[i].getNomeCorrentista2() + " (" + foiPara[i].getNivel() + ")");
+            //System.out.println(veioDe[i].getNomeCorrentista1() +" - "+ veioDe[i].getNomeCorrentista2() + " -> " + foiPara[i].getNomeCorrentista1() + " - " + foiPara[i].getNomeCorrentista2() + " (" + foiPara[i].getNivel() + ")");
         }
 
         // Procura o vertice do beneficiado
@@ -156,29 +157,43 @@ public class BuscaPorLargura {
             }
         }
 
+        Vertice auxFoiPara = beneficiado;
+        Vertice auxVeioDe = veioDe[posicaoBeneficiado];
+
+
         StringBuilder res = new StringBuilder();
 
+        while(!auxVeioDe.equals(depositador)){
+            int pos = procurarPosicaoFoiPara(auxFoiPara);
+            if(pos < 0)break;
+            auxVeioDe = veioDe[pos];
 
+            res.append( auxVeioDe.getNomeCorrentista1() + " - " + auxVeioDe.getNomeCorrentista2() + " -> " +
+                        auxFoiPara.getNomeCorrentista1() + " - " + auxFoiPara.getNomeCorrentista2() +
+                        " (" + auxFoiPara.getNivel() + ")\n\n" );
+
+            auxFoiPara = auxVeioDe;
+        }
+
+        String[] dadoscaminhamento = res.toString().split("\n\n");
+
+        for (int i = dadoscaminhamento.length -1; i >= 0 ; i--) {
+            System.out.println(dadoscaminhamento[i] + "\n\n");
+        }
+
+        //System.out.println(res.toString());
 
     }
 
+    private int procurarPosicaoFoiPara(Vertice verticeFoiPara){
+        int posicao = -1;
 
-    private int procuraFoiPara(Vertice foiPara){;
         for (int i = 0; i < qtdArestas; i++) {
-            if(foiPara.equals(this.foiPara[i])){
-                 return i;
+            if (verticeFoiPara.equals(foiPara[i])){
+                posicao = i;
             }
         }
-        return -1;
-    }
 
-    private int procuraVeioDe(Vertice veioDe){;
-        for (int i = 0; i < qtdArestas; i++) {
-            if(veioDe.equals(this.veioDe[i])){
-                return i;
-            }
-        }
-        return -1;
+        return posicao;
     }
-
 }
