@@ -9,7 +9,6 @@ import java.util.Queue;
 
 public class BuscaPorLargura {
     private Grafo grafoParaAnalisar;
-    private CaminhosEncontrados caminhosEncontrados;
 
     private ArrayList<Vertice> contasCandidatasParaDepositar;
     private ArrayList<Vertice> contasCandidatasParaReceber;
@@ -21,7 +20,6 @@ public class BuscaPorLargura {
 
     public BuscaPorLargura(Grafo grafoParaAnalisar) {
         this.grafoParaAnalisar = grafoParaAnalisar;
-        this.caminhosEncontrados = new CaminhosEncontrados(grafoParaAnalisar);
         this.contasCandidatasParaDepositar = new ArrayList<>();
         this.contasCandidatasParaReceber = new ArrayList<>();
         this.resultadoCaminhamento = new ArrayList<>();
@@ -112,18 +110,17 @@ public class BuscaPorLargura {
         }
         // Adiciona caminhamento
         resultadoCaminhamento.add(caminhamento.toString());
-        caminhosEncontrados.adicionaCaminho(caminhamento.toString());
         return distanciaTotalBFS -1;
     }
 
-    public void pesquisaMenorCaminho(String nomeDepositador, String nomeBeneficiado){
-        try {
-            caminhosEncontrados.escolheMenorCaminho(nomeDepositador,contasCandidatasParaDepositar,nomeBeneficiado,contasCandidatasParaReceber);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-    }
+//    public void pesquisaMenorCaminho(String nomeDepositador, String nomeBeneficiado){
+//        try {
+//            caminhosEncontrados.escolheMenorCaminho(nomeDepositador,contasCandidatasParaDepositar,nomeBeneficiado,contasCandidatasParaReceber);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+//
+//    }
 
     public void imprimeCaminhos(String nomeDepositador, String nomeBeneficiado){
         for (int i = 0; i < qtdArestas; i++) {
@@ -180,8 +177,6 @@ public class BuscaPorLargura {
         for (int i = dadoscaminhamento.length -1; i >= 0 ; i--) {
             System.out.println(dadoscaminhamento[i] + "\n\n");
         }
-
-        //System.out.println(res.toString());
 
     }
 
